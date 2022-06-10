@@ -307,7 +307,7 @@ python3 inference_pipeline.py \
 ```
 
 ### Simulate real time transactions
-Launch the python script [bigqeury_to_pubsub.py](db/bigquery_to_pubsub.py) which reads from BigQuery table simulation_data and ingests records into input pubsub topic to simulate real time traffic on the Dataflow pipeline
+Launch the python script [bigquery_to_pubsub.py](db/bigquery_to_pubsub.py) which reads from BigQuery table simulation_data and ingests records into input pubsub topic to simulate real time traffic on the Dataflow pipeline
 
 ```
 python3 utilities/bq_to_pubsub.py $PROJECT_ID $PUBSUB_TOPIC_NAME
