@@ -279,7 +279,7 @@ gcloud ai-platform predict --model $AI_MODEL_NAME \
 --json-instances sample_inputs/input_w_aggregates.json
 ```
 ### Load transaction history into Firestore
-The past transaction history (from train_raw and test_raw BQ tables) needs to be loaded into Firestore so the dataflow pipeline can do lookup while the simulated transactions (simulation_data BQ table) is used for real time inference. Lauch the script [load_to_firestore.py](utilities/load_to_firestore.py) to fetch the train and test transactions from BigQuery and to load these documents into Firestore. Ensure you have google-cloud-bigquery and google-cloud-firestore python modules installed.
+The past transaction history (from train_raw and test_raw BQ tables) needs to be loaded into Firestore so the dataflow pipeline can do lookup while the simulated transactions (simulation_data BQ table) is used for real time inference. Lauch the script [into_firestore.py](db/into_firestore.py) to fetch the train and test transactions from BigQuery and to load these documents into Firestore. Ensure you have google-cloud-bigquery and google-cloud-firestore python modules installed.
 ```
 python3 utilities/load_to_firestore.py $PROJECT_ID $FIRESTORE_COL_NAME
 ```
@@ -307,16 +307,14 @@ python3 inference_pipeline.py \
 ```
 
 ### Simulate real time transactions
-Launch the python script [bq_to_pubsub.py](utilities/bq_to_pubsub.py) which reads from BigQuery table simulation_data and ingests records into input pubsub topic to simulate real time traffic on the Dataflow pipeline
+Launch the python script [bq_to_pubsub.py](db/bigquery_to_pubsub.py) which reads from BigQuery table simulation_data and ingests records into input pubsub topic to simulate real time traffic on the Dataflow pipeline
 
 ```
 python3 utilities/bq_to_pubsub.py $PROJECT_ID $PUBSUB_TOPIC_NAME
 ```
-
-For production grade pipelines, one need to consider AI Platform quotas such as [number of Online Predictions per minute](https://cloud.google.com/ai-platform/prediction/docs/quotas#online_prediction_requests)
   
 ### Monitoring Dashboard
-We have created a sample dashboard to get started on monitoring few of the important metrics, refer to [dashboard template](utilities/dashboard_template.json). Replace your project ID or number in the template to create the dashboard in your project.
+We have created a sample dashboard to get started on monitoring few of the important metrics, refer to [template](db/dashboard_template.json). Replace your project ID or number in the template to create the dashboard in your project.
   
 
 ### Clean Up
